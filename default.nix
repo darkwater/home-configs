@@ -3,6 +3,8 @@
 
 let
   unstable = import <nixos-unstable> {};
+
+  match = key: arms: arms.${key};
 in {
   nixpkgs.overlays = [
     (self: super: {
@@ -24,7 +26,7 @@ in {
       };
       font = {
         normal = { family = "Hack"; };
-        size = 8.5;
+        size = 10;
       };
       draw_bold_text_with_bright_colors = true;
       background_opacity = 0.92;
@@ -54,6 +56,65 @@ in {
       mouse = {
         hide_when_typing = true;
         url = { modifiers = "Control"; };
+      };
+    };
+  };
+
+  programs.autorandr = let
+    bg = builtins.fetchurl {
+      url = "https://dark.red/wallpapers/celeste.png";
+      sha256 = "1b0j6cdy4qgzvfh4pajmsr7vs3ilkvy9m4z44yvmbi3rxqjibyrf";
+    };
+  in {
+    enable = true;
+    hooks.postswitch.background = "feh --bg-fill ${bg}";
+    profiles = match system {
+      "desktop" = let
+        DisplayPort-0 = "00ffffffffffff0005e360247d01000024190104a5351e783b6435a5544f9e27125054bfef00d1c081803168317c4568457c6168617c023a801871382d40582c4500132b2100001efc7e80887038124018203500132b2100001e000000fd003092a0a021010a202020202020000000fc003234363047340a20202020202001aa02031ef14b0103051404131f12021190230907078301000065030c001000fe5b80a07038354030203500132b2100001e866f80a07038404030203500132b2100001e011d007251d01e206e285500132b2100001eab22a0a050841a3030203600132b2100001a7c2e90a0601a1e4030203600132b2100001a000000000000004e";
+        DisplayPort-1 = "00ffffffffffff0005e36024dd0600000e1a0104a5351e783b6435a5544f9e27125054bfef00d1c081803168317c4568457c6168617c023a801871382d40582c4500132b2100001efc7e80887038124018203500132b2100001e000000fd002392a0a021010a202020202020000000fc003234363047340a202020202020016702031ef14b0103051404131f12021190230907078301000065030c001000fe5b80a07038354030203500132b2100001e866f80a07038404030203500132b2100001e011d007251d01e206e285500132b2100001eab22a0a050841a3030203600132b2100001a7c2e90a0601a1e4030203600132b2100001a000000000000004e";
+      in {
+        "normal" = {
+          fingerprint = {
+            inherit DisplayPort-0 DisplayPort-1;
+          };
+          config = {
+            DisplayPort-0 = {
+              enable = true;
+              primary = true;
+              position = "1920x0";
+              mode = "1920x1080";
+              rate = "144.00";
+            };
+            DisplayPort-1 = {
+              enable = true;
+              primary = true;
+              position = "0x0";
+              mode = "1920x1080";
+              rate = "144.00";
+            };
+          };
+          hooks.postswitch = ''
+            pkill synergys || true
+          '';
+        };
+        "winbox" = {
+          fingerprint = {
+            inherit DisplayPort-1;
+          };
+          config = {
+            DisplayPort-1 = {
+              enable = true;
+              primary = true;
+              position = "0x0";
+              mode = "1920x1080";
+              rate = "144.00";
+            };
+          };
+          hooks.postswitch = ''
+            synergys
+            systemctl --user start scream-ivshmem
+          '';
+        };
       };
     };
   };
