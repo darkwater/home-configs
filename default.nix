@@ -1,11 +1,14 @@
 { config, pkgs, lib, ... }:
 
-{
+let
+  onyx = import (builtins.fetchTarball https://github.com/darkwater/onyx/archive/master.tar.gz) {};
+in {
   imports = [
     ./git.nix
     ./ssh.nix
     ./alacritty.nix
     ./autorandr.nix
+    ./polybar.nix
   ];
 
   options = {
@@ -32,15 +35,12 @@
 
       true;
 
+    nixpkgs.overlays = [ onyx.overlay ];
+
     services.compton = {
       enable = true;
       backend = "glx";
       vSync = "opengl-swc";
-      extraOptions = ''
-        wintypes: {
-          dock = { opacity = 0.92; };
-        }
-      '';
     };
 
     # This value determines the Home Manager release that your

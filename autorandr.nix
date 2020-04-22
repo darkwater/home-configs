@@ -11,6 +11,7 @@ in {
   in {
     enable = true;
     hooks.postswitch.background = "feh --bg-fill ${bg}";
+    hooks.postswitch.polybar = "systemctl --user restart polybar";
     profiles = match config.meta.role {
       "desktop" = let
         DisplayPort-1 = primary: {
