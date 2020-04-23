@@ -19,7 +19,6 @@ in {
       scrolling = {
         hostiry = 10000;
         multiplier = 3;
-        auto_scroll = false;
       };
       font = {
         normal = { family = "Hack"; };
