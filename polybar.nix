@@ -18,7 +18,8 @@ in {
     config = {
       "bar/primary" = {
         bottom = true;
-        height = 28;
+        dpi = config.meta.dpi;
+        height = 28 * config.meta.dpi / 96;
         padding = 2;
         fixed-center = true;
         font-0 = "Hack:size=10;2";
@@ -29,6 +30,7 @@ in {
         modules-left = "i3";
         modules-right = "load date";
         tray-position = "right";
+        tray-maxsize = 16 * config.meta.dpi / 96;
         separator = "  ⋄  ";
         separator-foreground = "#afffffff";
       };

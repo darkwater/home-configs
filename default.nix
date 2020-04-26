@@ -23,6 +23,12 @@ in {
         description = "Whether this system has a monitor attached to it.";
         type = types.bool;
       };
+
+      dpi = mkOption {
+        description = "DPI of primary monitor, if any.";
+        default = 96;
+        type = types.int;
+      };
     };
   };
 
