@@ -4,12 +4,12 @@ let
   onyx = import (builtins.fetchTarball https://github.com/darkwater/onyx/archive/master.tar.gz) {};
 in {
   imports = [
-    ./git.nix
-    ./ssh.nix
     ./alacritty.nix
     ./autorandr.nix
-    ./polybar.nix
+    ./git.nix
     ./gnupg.nix
+    ./polybar.nix
+    ./ssh.nix
   ];
 
   options = {
@@ -34,13 +34,14 @@ in {
   };
 
   config = {
-    programs.home-manager.enable =
-      # not sure where else to assert stuff
+    assertions = [
+      {
+        assertion = lib.asserts.assertOneOf "meta.role" config.meta.role [ "desktop" "laptop" "server" ];
+        message = "meta.role should contain the kind of system this is for.";
+      }
+    ];
 
-      assert lib.asserts.assertOneOf "meta.role" config.meta.role
-        [ "desktop" "laptop" "server" ];
-
-      true;
+    programs.home-manager.enable = true;
 
     nixpkgs.overlays = [ onyx.overlay ];
 
