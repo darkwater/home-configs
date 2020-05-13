@@ -2,6 +2,10 @@
 
 let
   cut = "${pkgs.coreutils}/bin/cut";
+
+  winbox-indicator = pkgs.writeShellScript "windicator" ''
+    ${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox
+  '';
 in {
   services.polybar = {
     enable = true;
@@ -28,7 +32,7 @@ in {
         background-1 = "#ff101214";
         underline-size = 2;
         modules-left = "i3";
-        modules-right = "load date";
+        modules-right = "winbox load date";
         tray-position = "right";
         tray-maxsize = 16 * config.meta.dpi / 96;
         separator = "  ⋄  ";
@@ -82,13 +86,21 @@ in {
         ws-icon-8 = "-9;九";
       };
 
+      "module/winbox" = {
+        type = "custom/script";
+        interval = 5;
+
+        exec = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox";
+        label = "WIN: %output%";
+        label-foreground = "#81a2be";
+      };
       "module/load" = {
         type = "custom/script";
         interval = 5;
 
         exec = "${cut} -d' ' -f2 /proc/loadavg";
         label = "%output%x";
-        label-foreground = "#81a2be";
+        label-foreground = "#cc6666";
       };
       "module/date" = {
         type = "internal/date";
