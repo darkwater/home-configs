@@ -3,6 +3,21 @@
 let
   cut = "${pkgs.coreutils}/bin/cut";
 
+  match = val: arms: arms.${val};
+
+  modules = match config.meta.role {
+    "desktop" = {
+      modules-left = "i3";
+      modules-center = "";
+      modules-right = "winbox load date";
+    };
+    "laptop" = {
+      modules-left = "i3";
+      modules-center = "";
+      modules-right = "load date";
+    };
+  };
+
   winbox-indicator = pkgs.writeShellScript "windicator" ''
     ${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox
   '';
@@ -31,13 +46,11 @@ in {
         background-0 = "#eb1d1f21";
         background-1 = "#ff101214";
         underline-size = 2;
-        modules-left = "i3";
-        modules-right = "winbox load date";
         tray-position = "right";
         tray-maxsize = 16 * config.meta.dpi / 96;
         separator = "  ⋄  ";
         separator-foreground = "#afffffff";
-      };
+      } // modules;
 
       "module/i3" = {
         type = "internal/i3";
