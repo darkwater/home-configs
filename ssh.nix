@@ -9,16 +9,5 @@
     extraConfig = ''
       AddKeysToAgent true
     '';
-
-    matchBlocks = {
-      "fubuki" = {
-        hostname = "dark.red";
-        forwardAgent = true;
-      };
-      "shinbuki" = {
-        hostname = "shin.dark.red";
-        forwardAgent = true;
-      };
-    };
   };
 }
