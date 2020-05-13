@@ -22,7 +22,7 @@ in {
       };
       font = {
         normal = { family = "Hack"; };
-        size = 10;
+        size = 8;
       };
       draw_bold_text_with_bright_colors = true;
       background_opacity = 0.92;
