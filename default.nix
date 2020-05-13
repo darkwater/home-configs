@@ -9,6 +9,7 @@ in {
     ./alacritty.nix
     ./autorandr.nix
     ./polybar.nix
+    ./gnupg.nix
   ];
 
   options = {
