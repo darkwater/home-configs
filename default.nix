@@ -10,6 +10,7 @@ in {
     ./gnupg.nix
     ./polybar.nix
     ./ssh.nix
+    ./taskwarrior.nix
   ];
 
   options = {
