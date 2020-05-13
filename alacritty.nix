@@ -22,7 +22,7 @@ in {
       };
       font = {
         normal = { family = "Hack"; };
-        size = 8;
+        size = if config.meta.role == "laptop" then 8 else 10;
       };
       draw_bold_text_with_bright_colors = true;
       background_opacity = 0.92;
