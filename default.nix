@@ -8,6 +8,7 @@ in {
     ./autorandr.nix
     ./git.nix
     ./gnupg.nix
+    ./misc.nix
     ./polybar.nix
     ./ssh.nix
     ./taskwarrior.nix
@@ -45,12 +46,6 @@ in {
     programs.home-manager.enable = true;
 
     nixpkgs.overlays = [ onyx.overlay ];
-
-    services.picom = {
-      enable = true;
-      backend = "glx";
-      vSync = true;
-    };
 
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
