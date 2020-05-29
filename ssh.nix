@@ -10,6 +10,14 @@
       AddKeysToAgent true
       ForwardAgent yes
     '';
+
+    matchBlocks = {
+      kuudou = {
+        user = "u233274";
+        hostname = "u233274.your-storagebox.de";
+        port = 23;
+      };
+    };
   };
 
   programs.zsh.shellAliases = {
