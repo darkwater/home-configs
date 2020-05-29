@@ -9,6 +9,7 @@ in {
     ./git.nix
     ./gnupg.nix
     ./misc.nix
+    ./mpd.nix
     ./polybar.nix
     ./ssh.nix
     ./taskwarrior.nix
