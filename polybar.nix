@@ -107,18 +107,20 @@ in {
         type = "custom/script";
         interval = 5;
 
-        exec = "echo SSH";       # TODO: unhardcode this
-        exec-if = "SSH_AUTH_SOCK=/run/user/1000/ssh-agent ${pkgs.openssh}/bin/ssh-add -ql 2>/dev/null";
+        exec = "echo SSH";
+        exec-if = "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent ${pkgs.openssh}/bin/ssh-add -ql 2>/dev/null";
         label = "%output%";
         label-foreground = colors.red;
+
+        click-right = "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent ${pkgs.openssh}/bin/ssh-add -D";
       };
       "module/winbox" = {
         type = "custom/script";
         interval = 5;
 
-        exec = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox";
-        exec-if = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox | grep -v 'shut off'";
-        label = "WIN: %output%";
+        exec = "echo WIN";
+        exec-if = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox | ${pkgs.coreutils}/bin/head -n 1 | ${pkgs.gnugrep}/bin/grep -qv 'shut off'";
+        label = "%output%";
         label-foreground = colors.blue;
       };
       "module/memory" = {
