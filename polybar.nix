@@ -1,26 +1,30 @@
 { config, pkgs, ... }:
 
 let
-  cut = "${pkgs.coreutils}/bin/cut";
-
   match = val: arms: arms.${val};
 
   modules = match config.meta.role {
     "desktop" = {
       modules-left = "i3";
       modules-center = "";
-      modules-right = "winbox load date";
+      modules-right = "ssh winbox memory load date";
     };
     "laptop" = {
       modules-left = "i3";
       modules-center = "";
-      modules-right = "load date";
+      modules-right = "ssh memory load date";
     };
   };
 
-  winbox-indicator = pkgs.writeShellScript "windicator" ''
-    ${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox
-  '';
+  colors = {
+    red    = "#cc6666";
+    orange = "#de935f";
+    yellow = "#f0c674";
+    green  = "#b9ca4a";
+    cyan   = "#8abeb7";
+    blue   = "#81a2be";
+    purple = "#b294bb";
+  };
 in {
   services.polybar = {
     enable = true;
@@ -99,21 +103,38 @@ in {
         ws-icon-8 = "-9;九";
       };
 
+      "module/ssh" = {
+        type = "custom/script";
+        interval = 5;
+
+        exec = "echo SSH";       # TODO: unhardcode this
+        exec-if = "SSH_AUTH_SOCK=/run/user/1000/ssh-agent ${pkgs.openssh}/bin/ssh-add -ql 2>/dev/null";
+        label = "%output%";
+        label-foreground = colors.red;
+      };
       "module/winbox" = {
         type = "custom/script";
         interval = 5;
 
         exec = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox";
+        exec-if = "${pkgs.libvirt}/bin/virsh -c qemu:///system domstate winbox | grep -v 'shut off'";
         label = "WIN: %output%";
-        label-foreground = "#81a2be";
+        label-foreground = colors.blue;
+      };
+      "module/memory" = {
+        type = "internal/memory";
+        interval = 5;
+
+        label = "-%gb_free%";
+        label-foreground = colors.orange;
       };
       "module/load" = {
         type = "custom/script";
         interval = 5;
 
-        exec = "${cut} -d' ' -f2 /proc/loadavg";
+        exec = "${pkgs.coreutils}/bin/cut -d' ' -f2 /proc/loadavg";
         label = "%output%x";
-        label-foreground = "#cc6666";
+        label-foreground = colors.orange;
       };
       "module/date" = {
         type = "internal/date";
@@ -122,7 +143,7 @@ in {
         date = "%a %d %b";
         time = "%H:%M";
         label = "%date% %time%";
-        label-foreground = "#f0c674";
+        label-foreground = colors.cyan;
       };
     };
   };
