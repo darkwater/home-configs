@@ -8,7 +8,6 @@
 
     extraConfig = ''
       AddKeysToAgent true
-      ForwardAgent yes
     '';
 
     matchBlocks = {
