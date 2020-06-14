@@ -38,6 +38,7 @@ in {
           config.DisplayPort-1 = DisplayPort-1 false;
           hooks.postswitch = ''
             pkill synergys || true
+            systemctl --user stop scream-ivshmem
           '';
         };
         "winbox" = {
