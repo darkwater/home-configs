@@ -7,12 +7,12 @@ let
     "desktop" = {
       modules-left = "i3";
       modules-center = "";
-      modules-right = "ssh winbox memory load date";
+      modules-right = "mumble ssh winbox memory load date";
     };
     "laptop" = {
       modules-left = "i3";
       modules-center = "";
-      modules-right = "ssh memory load date";
+      modules-right = "mumble ssh memory load date";
     };
   };
 
@@ -103,6 +103,31 @@ in {
         ws-icon-8 = "-9;九";
       };
 
+      "module/mumble" = {
+        type = "custom/script";
+        interval = 5;
+
+        exec = (pkgs.writeShellScript "polybar-mumble" ''
+          out="$(${pkgs.dbus}/bin/dbus-send --print-reply --session \
+            --dest=net.sourceforge.mumble.mumble \
+            / net.sourceforge.mumble.Mumble.getTransmitMode 2>/dev/null)"
+
+          [[ $? -ne 0 ]] && exit
+
+          reply="$(${pkgs.gawk}/bin/awk 'NR == 2 { print $2 }' <<<"$out")"
+
+          case $reply in
+            0) echo "CNT";;
+            1) echo;;
+            2) echo "PTT";;
+          esac
+        '').outPath;
+        label = "%output%";
+        label-foreground = colors.purple;
+
+        click-right = "${pkgs.dbus}/bin/dbus-send --print-reply --session "
+        + "--dest=net.sourceforge.mumble.mumble / net.sourceforge.mumble.Mumble.setTransmitMode uint32:1";
+      };
       "module/ssh" = {
         type = "custom/script";
         interval = 5;
