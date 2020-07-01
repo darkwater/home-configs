@@ -5,7 +5,7 @@
 
   services.gpg-agent = {
     enable = true;
-    maxCacheTtl = 60;
+    maxCacheTtl = 120;
     pinentryFlavor = "gtk2";
   };
 }
