@@ -5,7 +5,10 @@ let
 in {
   nixpkgs.overlays = [
     (self: super: {
-      alacritty = unstable.alacritty;
+      alacritty = super.writeShellScriptBin "alacritty" ''
+        export WINIT_X11_SCALE_FACTOR=1
+        exec ${unstable.alacritty}/bin/alacritty "$@"
+      '';
     })
   ];
 
@@ -17,12 +20,12 @@ in {
         dynamic_padding = false;
       };
       scrolling = {
-        hostiry = 10000;
+        history = 10000;
         multiplier = 3;
       };
       font = {
         normal = { family = "Hack"; };
-        size = if config.meta.role == "laptop" then 8 else 10;
+        size = if config.meta.dpi > 96 then 12 else 10;
       };
       draw_bold_text_with_bright_colors = true;
       background_opacity = 0.92;
