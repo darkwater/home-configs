@@ -12,7 +12,7 @@ let
     "laptop" = {
       modules-left = "i3";
       modules-center = "";
-      modules-right = "mumble ssh memory load date";
+      modules-right = "mumble ssh battery memory load date";
     };
   };
 
@@ -138,6 +138,20 @@ in {
         label-foreground = colors.red;
 
         click-right = "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent ${pkgs.openssh}/bin/ssh-add -D";
+      };
+      "module/battery" = {
+        type = "internal/battery";
+        poll-interval = 20;
+
+        battery = "BAT0";
+        adapter = "AC";
+
+        label-full = "100%";
+        label-charging = "%percentage%%+";
+        label-discharging = "%percentage%%-";
+        label-full-foreground = colors.blue;
+        label-charging-foreground = colors.blue;
+        label-discharging-foreground = colors.blue;
       };
       "module/winbox" = {
         type = "custom/script";
