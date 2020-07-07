@@ -30,5 +30,9 @@
         disconnect 2C:41:A1:C8:F7:18
       EOF
     '')
+
+    (pkgs.writeShellScriptBin "lock" ''
+      exec i3lock -t -i ${builtins.fetchurl { url = "https://s.dark.red/xf/EORJ.png"; }}
+    '')
   ];
 }
