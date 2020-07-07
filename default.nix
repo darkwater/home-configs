@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  onyx = import (builtins.fetchTarball https://github.com/darkwater/onyx/archive/master.tar.gz) {};
+  onyx = import (builtins.fetchTarball https://git.dark.red/darkwater/onyx/-/archive/master.tar.gz) {};
 in {
   imports = [
     onyx.home-modules
