@@ -8,7 +8,6 @@ in {
 
     ./alacritty.nix
     ./autorandr.nix
-    ./git.nix
     ./gnupg.nix
     ./misc.nix
     ./polybar.nix
@@ -30,7 +29,7 @@ in {
       };
 
       dpi = mkOption {
-        description = "DPI of primary monitor, if any.";
+        description = "DPI of primary monitor.";
         default = 96;
         type = types.int;
       };

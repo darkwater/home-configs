@@ -1,6 +1,14 @@
 { config, pkgs, ... }:
 
 {
+  onyx.configs.git.enable = true;
+
+  programs.git = {
+    userName = "Sam Lakerveld";
+    userEmail = "dark@dark.red";
+    signing.key = "dark@dark.red";
+  };
+
   services.picom = {
     enable = true;
     backend = "glx";
