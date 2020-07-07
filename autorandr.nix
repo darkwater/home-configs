@@ -59,6 +59,31 @@ in {
             mode = "1920x1080";
           };
         };
+        "work" = {
+          fingerprint = {
+            eDP-1 = import edids/laptop-edp.nix;
+            DP-1-2-1 = import edids/work-right.nix;
+            DP-1-2-2 = import edids/work-left.nix;
+          };
+          config = {
+            DP-1-2-1 = {
+              enable = true;
+              primary = true;
+              position = "1920x0";
+              mode = "1920x1080";
+            };
+            DP-1-2-2 = {
+              enable = true;
+              position = "0x0";
+              mode = "1920x1080";
+            };
+            eDP-1 = {
+              enable = true;
+              position = "1920x1080";
+              mode = "1920x1080";
+            };
+          };
+        };
       };
     };
   };
