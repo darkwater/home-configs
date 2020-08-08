@@ -7,6 +7,10 @@
     userName = "Sam Lakerveld";
     userEmail = "dark@dark.red";
     signing.key = "dark@dark.red";
+    extraConfig = {
+      mergetool.nvim.cmd = ''nvim -f -d -c "wincmd J" "$BASE" "$LOCAL" "$REMOTE"'';
+      merge.tool = "nvim";
+    };
   };
 
   services.picom = {
