@@ -35,6 +35,28 @@
       EOF
     '')
 
+    (pkgs.writeShellScriptBin "selproj-zsh" ''
+      set -e
+
+      cd ~
+      dir="$(ls -dt p/* w/* |
+             sed -e '
+               s.^p/.\x1b[0;35mp \x1b[36m/ \x1b[34;1m.
+               s.^w/.\x1b[0;33mw \x1b[36m/ \x1b[34;1m.
+             ' |
+             fzf --ansi --reverse |
+             tr -d ' ')"
+
+      test -z "$dir" && exit
+      cd "$dir"
+
+      if test -e shell.nix; then
+        exec nix-shell --run "zsh $*"
+      else
+        exec zsh "$@"
+      fi
+    '')
+
     (pkgs.writeShellScriptBin "lock" ''
       exec i3lock -t -i ${builtins.fetchurl { url = "https://s.dark.red/xf/EORJ.png"; }}
     '')
