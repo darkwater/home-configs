@@ -5,8 +5,8 @@ let
 in {
   programs.autorandr = let
     bg = builtins.fetchurl {
-      url = "https://dark.red/wallpapers/celeste.png";
-      sha256 = "1b0j6cdy4qgzvfh4pajmsr7vs3ilkvy9m4z44yvmbi3rxqjibyrf";
+      url = "https://dark.red/wallpapers/atsushi.png";
+      sha256 = "0a8y0d7ibrgzwp9lfw41vd9n1r7pzrbxkk9db6vi2pw1gkrqkyij";
     };
   in {
     enable = true;
