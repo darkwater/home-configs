@@ -58,7 +58,8 @@
     '')
 
     (pkgs.writeShellScriptBin "lock" ''
-      exec i3lock -t -i ${builtins.fetchurl { url = "https://s.dark.red/xf/EORJ.png"; }}
+      exec ${pkgs.i3lock-color}/bin/i3lock-color -t -i ${builtins.fetchurl { url = "https://s.dark.red/xf/EORJ.png"; }} \
+        -k --timecolor=ffffffc0 --datecolor=ffffffc0
     '')
   ];
 }
