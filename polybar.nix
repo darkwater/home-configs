@@ -5,12 +5,12 @@ let
 
   modules = match config.meta.role {
     "desktop" = {
-      modules-left = "i3";
+      modules-left = "i3 timew";
       modules-center = "";
       modules-right = "mumble ssh winbox memory load date";
     };
     "laptop" = {
-      modules-left = "i3";
+      modules-left = "i3 timew";
       modules-center = "";
       modules-right = "mumble ssh battery memory load date";
     };
@@ -103,6 +103,18 @@ in {
         ws-icon-8 = "-9;九";
       };
 
+      "module/timew" = {
+        type = "custom/script";
+        interval = 5;
+        label = "%output%";
+        label-foreground = colors.purple;
+
+        exec = (pkgs.writeShellScript "polybar-timew" ''
+          ${pkgs.timewarrior}/bin/timew get dom.active.json 2>/dev/null |
+            ${pkgs.jq}/bin/jq -r '.tags | join(", ")'
+        '').outPath;
+        exec-if = "${pkgs.timewarrior}/bin/timew get dom.active.start";
+      };
       "module/mumble" = {
         type = "custom/script";
         interval = 5;
