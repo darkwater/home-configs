@@ -21,9 +21,9 @@ in {
           mode = "1920x1080";
           rate = "144.00";
         };
-        DisplayPort-0 = {
+        DisplayPort-0 = primary: {
           enable = true;
-          primary = true;
+          inherit primary;
           position = "1920x0";
           mode = "1920x1080";
           rate = "144.00";
@@ -34,11 +34,18 @@ in {
             DisplayPort-1 = import edids/home-left.nix;
             DisplayPort-0 = import edids/home-right.nix;
           };
-          config.DisplayPort-0 = DisplayPort-0;
+          config.DisplayPort-0 = DisplayPort-0 true;
           config.DisplayPort-1 = DisplayPort-1 false;
           hooks.postswitch = ''
             pkill synergys || true
             systemctl --user stop scream-ivshmem
+          '';
+        };
+        "console" = {
+          fingerprint.DisplayPort-0 = import edids/home-right.nix;
+          config.DisplayPort-0 = DisplayPort-0 true;
+          hooks.postswitch = ''
+            pactl load-module module-loopback sink_input_properties=media.name=Console latency_msec=1 source=alsa_input.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.multichannel-input
           '';
         };
         "winbox" = {
