@@ -111,7 +111,8 @@ in {
 
         exec = (pkgs.writeShellScript "polybar-timew" ''
           ${pkgs.timewarrior}/bin/timew get dom.active.json 2>/dev/null |
-            ${pkgs.jq}/bin/jq -r '.tags | join(", ")'
+            ${pkgs.jq}/bin/jq -r '"\(.tags | join(", "))\(
+                           if has("annotation") then " · \(.annotation)" else "" end)"'
         '').outPath;
         exec-if = "${pkgs.timewarrior}/bin/timew get dom.active.start";
       };
