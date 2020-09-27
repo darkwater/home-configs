@@ -39,6 +39,7 @@ in {
           hooks.postswitch = ''
             pkill synergys || true
             systemctl --user stop scream-ivshmem
+            pactl unload-module module-loopback
           '';
         };
         "console" = {
