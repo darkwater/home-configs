@@ -6,12 +6,12 @@ let
   modules = match config.meta.role {
     "desktop" = {
       modules-left = "i3 timew";
-      modules-center = "";
+      modules-center = "mpd";
       modules-right = "mumble ssh winbox memory load date";
     };
     "laptop" = {
       modules-left = "i3 timew";
-      modules-center = "";
+      modules-center = "mpd";
       modules-right = "mumble ssh battery memory load date";
     };
   };
@@ -102,7 +102,6 @@ in {
         ws-icon-7 = "-8;八";
         ws-icon-8 = "-9;九";
       };
-
       "module/timew" = {
         type = "custom/script";
         interval = 5;
@@ -116,6 +115,13 @@ in {
         '').outPath;
         exec-if = "${pkgs.timewarrior}/bin/timew get dom.active.start";
       };
+
+      "module/mpd" = {
+        type = "internal/mpd";
+        label-song-foreground = colors.green;
+        format-paused = "";
+      };
+
       "module/mumble" = {
         type = "custom/script";
         interval = 5;
