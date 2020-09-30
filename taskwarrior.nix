@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
-{
+let
+  onyx = import ./onyx.nix;
+in {
   programs.taskwarrior = {
     enable = true;
     colorTheme = "dark-256";
@@ -108,7 +110,7 @@
   );
 
   home.packages = with pkgs; [
-    timewarrior
+    onyx.unstable.timewarrior
     python38Packages.bugwarrior
 
     # (writeTextDir "share/zsh/vendor-completions/_task"

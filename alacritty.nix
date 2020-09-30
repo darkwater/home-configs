@@ -1,13 +1,13 @@
 { config, pkgs, lib, ... }:
 
 let
-  unstable = import <nixos-unstable> {};
+  onyx = import ./onyx.nix;
 in {
   nixpkgs.overlays = [
     (self: super: {
       alacritty = super.writeShellScriptBin "alacritty" ''
         export WINIT_X11_SCALE_FACTOR=1
-        exec ${unstable.alacritty}/bin/alacritty "$@"
+        exec ${onyx.unstable.alacritty}/bin/alacritty "$@"
       '';
     })
   ];
