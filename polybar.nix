@@ -141,6 +141,7 @@ in {
             2) echo "PTT";;
           esac
         '').outPath;
+        exec-if = "${pkgs.procps}/bin/pidof mumble";
         label = "%output%";
         label-foreground = colors.purple;
 
