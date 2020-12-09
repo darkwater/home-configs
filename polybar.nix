@@ -118,7 +118,11 @@ in {
       "module/mpd" = {
         type = "internal/mpd";
         label-song-foreground = colors.green;
+        format-playing = "<label-song> <icon-random>";
         format-paused = "";
+        icon-random = "s";
+        toggle-on-foreground = colors.yellow;
+        toggle-off-foreground = "#00000000";
       };
 
       "module/mumble" = {
