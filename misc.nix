@@ -3,13 +3,18 @@
 {
   onyx.configs.git.enable = true;
 
-  programs.git = {
+  programs.git = let
+    diff-highlight = "${pkgs.git}/share/git/contrib/diff-highlight/diff-highlight";
+  in {
     userName = "Sam Lakerveld";
     userEmail = "dark@dark.red";
     signing.key = "dark@dark.red";
     extraConfig = {
       mergetool.nvim.cmd = ''nvim -f -d -c "wincmd J" "$BASE" "$LOCAL" "$REMOTE"'';
       merge.tool = "nvim";
+      pager.log = "${diff-highlight} | less";
+      pager.show = "${diff-highlight} | less";
+      pager.diff = "${diff-highlight} | less";
     };
   };
 
