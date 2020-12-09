@@ -39,7 +39,7 @@ in {
   config = {
     assertions = [
       {
-        assertion = lib.asserts.assertOneOf "meta.role" config.meta.role [ "desktop" "laptop" "server" ];
+        assertion = lib.asserts.assertOneOf "meta.role" config.meta.role [ "desktop" "laptop" "server" "htpc" ];
         message = "meta.role should contain the kind of system this is for.";
       }
     ];
