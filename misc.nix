@@ -44,10 +44,11 @@
       set -e
 
       cd ~
-      dir="$(ls -dt p/* w/* |
+      dir="$(ls -dt p/* w/* g/* |
              sed -e '
                s.^p/.\x1b[0;35mp \x1b[36m/ \x1b[34;1m.
                s.^w/.\x1b[0;33mw \x1b[36m/ \x1b[34;1m.
+               s.^g/.\x1b[0;32mg \x1b[36m/ \x1b[34;1m.
              ' |
              fzf --ansi --reverse |
              tr -d ' ')"
