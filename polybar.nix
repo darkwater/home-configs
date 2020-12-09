@@ -1,9 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  match = val: arms: arms.${val};
-
-  modules = match config.meta.role {
+  all-modules = {
     "desktop" = {
       modules-left = "i3 timew";
       modules-center = "mpd";
@@ -27,7 +25,7 @@ let
   };
 in {
   services.polybar = {
-    enable = true;
+    enable = all-modules ? ${config.meta.role};
     package = pkgs.polybar.override {
       alsaSupport   = false;
       githubSupport = true;
@@ -54,7 +52,8 @@ in {
         tray-maxsize = 16 * config.meta.dpi / 96;
         separator = "  ⋄  ";
         separator-foreground = "#afffffff";
-      } // modules;
+      }
+      // all-modules.${config.meta.role};
 
       "module/i3" = {
         type = "internal/i3";
